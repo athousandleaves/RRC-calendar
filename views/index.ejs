@@ -1,0 +1,223 @@
+<html>
+
+<head>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.7.0/fullcalendar.min.css' />
+  <script src="http://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    crossorigin="anonymous"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.7.0/fullcalendar.min.js'></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css' />
+  <link rel='stylesheet' href='app.css' />
+</head>
+
+<body>
+  <div id="wrap">
+    <div id="header">
+      <h1>RRC Study Room Reservations</h1>
+    </div>
+    <div id="calendar"></div>
+    <div id="dialog">
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">Study Room Reservation</h4>
+            </div>
+            <div class="modal-body">
+              <form role="form" id="form" action=''>
+                <div class="form-group">
+                  <label for="studentname">Student's Name</label>
+                  <input type="text" class="form-control" id="studentname" placeholder="Enter student's name here..." />
+                </div>
+                <div class="form-group">
+                  <label for="occupants">Number of Occupants</label>
+                  <select class="form-control" id="occupants">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12+</option>
+                  </select>
+                </div>
+                <fieldset class="form-group">
+                  <label for="roomnumber">Room Number</label>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="roomnumber" id="left" value="left" checked> Room #1304 (Room on
+                      <strong>
+                        <b>left</b>
+                      </strong>)
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input type="radio" class="form-check-input" name="roomnumber" id="right" value="right"> Room #1305 (Room on
+                      <strong>
+                        <b>right</b>
+                      </strong>)
+                    </label>
+                  </div>
+                </fieldset>
+              </form>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary" data-dismiss="modal" id="submit">Save reservation</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <% if (events) { %>
+    <script>
+      $(document).ready(function () {
+        var addEvent = function (start, end) {
+          var renderFormData = function () {
+            if (form.elements[0].value.length > 0) {
+              return form.elements;
+            }
+          };
+          var renderEventOnCalendar = function () {
+            var form = document.getElementById("form");
+            var eventData;
+            var roomNumber;
+            var title = renderFormData();
+            var studentName = title[0].value;
+            var occupants = title[1].value;
+            title[3].checked ?
+              (roomNumber = "#1304 (Room on left)") :
+              (roomNumber = "#1305 (Room on right)");
+            eventData = {
+              title: studentName,
+              occupants: occupants,
+              roomNumber: roomNumber,
+              start: start,
+              end: moment(start).add(2, "hours"),
+              allDay: false,
+              editable: true
+            };
+            title[3].checked ?
+              (eventData.color = "#2196f3") :
+              (eventData.color = "#4caf50");
+            console.log(eventData);
+            $("#calendar").fullCalendar("renderEvent", eventData, true); // stick? = true
+            $("#calendar").fullCalendar("unselect");
+            $("#myModal").modal("hide");
+            form.reset();
+            return false;
+          };
+
+          $("#myModal").modal("show");
+          $("#submit")
+            .off("click")
+            .click(renderEventOnCalendar) ||
+            $("#studentname").keypress(function (event) {
+              var keycode = event.keyCode || event.which;
+              if (keycode == "13") {
+                e.preventDefault();
+                renderEventOnCalendar();
+              }
+            }) ||
+            $("#form").submit(function (event) {
+              event.preventDefault();
+            });
+        };
+
+        // page is now ready, initialize the calendar...
+
+        $("#calendar").fullCalendar({
+          // put your options and callbacks here
+          themeSystem: "bootstrap3",
+          defaultView: "agendaDay",
+          header: {
+            left: "prev,next today",
+            center: "title",
+            right: "agendaDay,agendaWeek,month"
+          },
+          hiddenDays: [0],
+          bootstrapGlyphicons: {
+            prev: "glyphicon-arrow-left",
+            next: "glyphicon-arrow-right"
+          },
+          allDaySlot: false,
+          minTime: "07:00:00",
+          maxTime: "21:00:00",
+          businessHours: [{
+              // days of week. an array of zero-based day of week integers (0=Sunday)
+              dow: [1, 2, 3, 4, 5], // Monday - Friday
+              start: "07:30", // a start time
+              end: "21:00" // an end time
+            },
+            {
+              dow: [6],
+              start: "08:00",
+              end: "17:00"
+            }
+          ],
+          selectable: true,
+          selectHelper: false,
+          select: addEvent,
+          editable: true,
+          eventLimit: true, // allow "more" link when too many events
+          navLinks: true, // can click day/week names to navigate views
+          eventOrder: "roomNumber",
+          slotEventOverlap: false,
+          events: '<% events %>',
+          views: {
+            agenda: {}
+          },
+          eventRender: function (event, element) {
+            console.log(event);
+            element
+              .find(".fc-time")
+              .append(
+                '<button type="button" id="deleteEventButton" class="close btn-delete" data-dismiss="modal" aria-label="Close"><span class="delete" aria-hidden="true">&#10006;</span></button>'
+              );
+            event.occupants > 1 ?
+              element
+              .find(".fc-title")
+              .append(
+                "<br/> <span class='occupants'>" +
+                event.occupants +
+                " occupants" +
+                "</span> <br/> <span class='roomNumber'>" +
+                event.roomNumber +
+                "</span>"
+              ) :
+              element
+              .find(".fc-title")
+              .append(
+                "<br/> <span class='occupants'>" +
+                event.occupants +
+                " occupant" +
+                "</span> <br/> <span class='roomNumber'>" +
+                event.roomNumber +
+                "</span>"
+              );
+            element.find("#deleteEventButton").click(function () {
+              $("#calendar").fullCalendar("removeEvents", event._id);
+            });
+          }
+        });
+      });
+    </script>
+    <% } %>
+
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+#wrap {
+  margin: 2.8rem 16rem;
+}
+body {
+  background-color: #f4f6f7;
+  font-family: 'Open Sans', sans-serif;  
+}
+
+a {
+  color: #2196f3;
+}
+
+h1 {
+  font-size: 3.1em;
+  font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+  font-size: 2.1em;
+}
+
+#header {
+  padding-bottom: 2.7em;
+}
+
+.alert-info {
+  background-color: #e3f3fc;
+}
+
+.fc-day-header{
+  font-size: 1.5em;
+  color: #2196f3;
+}
+.fc-day-number{
+  font-size: 1.35em;
+  font-weight: bolder;
+  color: #2196f3;
+}
+.fc-day-grid-event > .fc-content {
+  font-size: 0.8em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer; 
+  max-height:20px; 
+}
+.fc-day-grid-event > .fc-content .fc-time {
+  font-weight: 550 !important;
+}
+.fc-day-grid-event > .fc-content .fc-time .btn-delete {
+  display: none !important;
+}
+
+.fc-agendaWeek-view > .fc-title {
+  font-size: 0.6em;
+}
+
+.fc-time{
+  font-size: 1.7em !important;
+  font-family: 'Roboto', sans-serif;
+  margin-left: 0.2em;
+}
+.fc-title{
+  font-size: 1.5em;
+  margin-left: 0.3em;
+}
+
+.fc-event{
+  cursor: inherit !important;
+}
+
+.fc-time-grid-event.fc-short .fc-title {
+	font-size: .85em !important; /* make the title text the same size as the time */
+	padding: 0 !important; /* undo padding from above */
+}
+
+.fc-time-grid-event.fc-allow-mouse-resize .fc-resizer {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20px;
+  overflow: hidden;
+  line-height: 20px;
+  font-size: 22px;
+  font-family: monospace;
+  text-align: center;
+  cursor: s-resize
+}
+
+.fc-time-grid-event.fc-allow-mouse-resize .fc-resizer:after {
+  content: "="
+}
+
+.btn{
+  box-shadow: 1px 2px 3px rgba(0,0,0,0.2)
+}
+
+.btn[disabled]{
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.07);
+}
+
+.btn-default{
+  font-size: 15px !important;
+  background-color: #f9f9f9;
+  border-color: #adadad;
+}
+
+.btn-primary {
+  background-color: #2196f3;
+}
+
+.btn-default:active{
+  background-color:#eae9e9 !important;
+}
+
+.btn-delete {
+  float: right !important;
+  margin-top: 2px !important;
+  height: 0.8em !important;
+  margin-right: 0.4em !important;
+}
+
+.delete{
+  font-size: 0.6em;
+}
+
+button { 
+  outline: none !important;
+}
+
+i.fa{
+  font-size: 1em;
+}
+
+.right-room {
+  left: 50% !important;
+}
+
+.left-room {
+  right: 50% !important;
+}
